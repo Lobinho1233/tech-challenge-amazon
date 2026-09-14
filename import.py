@@ -46,4 +46,42 @@ df["discount_percentage"] = (
 )
 df["discount_percentage"] = pd.to_numeric(df["discount_percentage"], errors="coerce") / 100
 
-df
+
+#%%
+df.to_csv("data/amazon_normalize.csv", index=False)
+
+#%%
+
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
+
+
+# 1. Carrega as variáveis de ambiente
+load_dotenv()
+
+usuario = os.getenv("USUARIO")
+senha = os.getenv("SENHA")
+host = os.getenv("HOST")
+porta = os.getenv("PORTA")   # confirme se no .env é "PORTA" ou "PORT" — mantenha consistente
+banco = os.getenv("BANCO")
+
+if not all([usuario, senha, host, porta, banco]):
+    raise EnvironmentError("Uma ou mais variáveis de ambiente não foram carregadas. Verifique o arquivo .env")
+
+# 2. Cria a engine de conexão
+url_conexao = f'postgresql://{usuario}:{senha}@{host}:{porta}/{banco}?sslmode=require'
+engine = create_engine(url_conexao)
+
+# 3. Salva o CSV localmente (seu código)
+df.to_csv("data/amazon_normalize.csv", index=False)
+
+# 4. Envia o DataFrame para o PostgreSQL
+df.to_sql(
+    "amazon_products",      # nome da tabela no banco
+    con=engine,
+    if_exists="replace",    # substitui a tabela se já existir
+    index=False
+)
+
+print(f"Dados enviados com sucesso para a tabela 'amazon_products' ({len(df)} linhas)")
+
