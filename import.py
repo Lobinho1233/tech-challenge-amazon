@@ -46,26 +46,3 @@ df["discount_percentage"] = (
 df["discount_percentage"] = pd.to_numeric(df["discount_percentage"], errors="coerce") / 100
 
 df
-
-#%%
-
-# enviando informações para um banco de dados
-from sqlalchemy import create_engine
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-usuario = os.getenv("USUARIO")
-senha = os.getenv("SENHA")
-host = os.getenv("HOST")
-porta = os.getenv("PORTA")
-banco = os.getenv("BANCO")
-
-if not all([usuario, senha, host, porta, banco]):
-    raise EnvironmentError("Uma ou mais variáveis de ambiente não foram carregadas. Verifique o arquivo .env")
-
-url_conexao = f'postgresql://{usuario}:{senha}@{host}:{porta}/{banco}'
-engine = create_engine(url_conexao)
-
-df.to_sql("nome_da_tabela", engine, if_exists="replace", index=False)
