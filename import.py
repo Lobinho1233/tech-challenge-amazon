@@ -48,6 +48,8 @@ df["discount_percentage"] = pd.to_numeric(df["discount_percentage"], errors="coe
 df
 
 #%%
+
+# enviando informações para um banco de dados
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
