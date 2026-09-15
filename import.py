@@ -57,13 +57,13 @@ df.head()
 df.isna().sum()
 
 #%%
-#conexão com o banco de dados aws rds, treinando conceitos de cloud
 
-import sqlalchemy
+from sqlalchemy import create_engine
 
-engine = sqlalchemy.create_engine("sqlite:///database.db")
+engine = create_engine("sqlite:///meubanco.db")
 
-with open("etl_projeto.sql") as open_file:
-    query = open_file.read()
+print("Engine criada com sucesso!")
+
+df.to_sql("amazon_products", con=engine, if_exists="replace", index=False)
 
 
