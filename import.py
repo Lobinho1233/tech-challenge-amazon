@@ -50,37 +50,20 @@ df["discount_percentage"] = pd.to_numeric(df["discount_percentage"], errors="coe
 #%%
 df.to_csv("data/amazon_normalize.csv", index=False)
 
+df.head()
+
+#%%
+
+df.isna().sum()
+
 #%%
 #conexão com o banco de dados aws rds, treinando conceitos de cloud
 
-from sqlalchemy import create_engine
-from dotenv import load_dotenv
+import sqlalchemy
 
-load_dotenv()
+engine = sqlalchemy.create_engine("sqlite:///database.db")
 
-usuario = os.getenv("USUARIO")
-senha = os.getenv("SENHA")
-host = os.getenv("HOST")
-porta = os.getenv("PORTA")  
-banco = os.getenv("BANCO")
-
-if not all([usuario, senha, host, porta, banco]):
-    raise EnvironmentError("Uma ou mais variáveis de ambiente não foram carregadas. Verifique o arquivo .env")
-
-
-url_conexao = f'postgresql://{usuario}:{senha}@{host}:{porta}/{banco}?sslmode=require'
-engine = create_engine(url_conexao)
-
-
-df.to_csv("data/amazon_normalize.csv", index=False)
-
-df.to_sql(
-    "amazon_products",      
-    con=engine,
-    if_exists="replace",    
-    index=False
-)
-
-print(f"Dados enviados com sucesso para a tabela 'amazon_products' ({len(df)} linhas)")
+with open("etl_projeto.sql") as open_file:
+    query = open_file.read()
 
 
