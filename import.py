@@ -55,9 +55,6 @@ df.info()
 
 #%%
 
-df["discounted_price"] = pd.to_numeric(df["discounted_price"])
-df["actual_price"] = pd.to_numeric(df["actual_price"])
-df["discount_percentage"] = pd.to_numeric(df["discount_percentage"])
 df["rating"] = pd.to_numeric(df["rating"], errors='coerce')
 df["rating_count"] = pd.to_numeric(df["rating_count"], errors='coerce')
 
