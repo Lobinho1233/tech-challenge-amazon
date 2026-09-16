@@ -46,15 +46,27 @@ df["discount_percentage"] = (
 )
 df["discount_percentage"] = pd.to_numeric(df["discount_percentage"], errors="coerce") / 100
 
+#%%
+
+df["rating_count"] = df["rating_count"].str.replace(',','')
+#%%
+
+df.info()
 
 #%%
-df.to_csv("data/amazon_normalize.csv", index=False)
 
-df.head()
+df["discounted_price"] = pd.to_numeric(df["discounted_price"])
+df["actual_price"] = pd.to_numeric(df["actual_price"])
+df["discount_percentage"] = pd.to_numeric(df["discount_percentage"])
+df["rating"] = pd.to_numeric(df["rating"], errors='coerce')
+df["rating_count"] = pd.to_numeric(df["rating_count"], errors='coerce')
 
 #%%
 
 df.isna().sum()
+
+#%%
+df.info()
 
 #%%
 
