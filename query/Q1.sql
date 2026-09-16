@@ -1,8 +1,6 @@
 -- Quais categorias e produtos apresentam maior relevância?
-
 SELECT
     product_id,
-    MAX(product_name) AS product_name,
     MAX(category) AS category,
     MAX(rating_count) AS total_avaliacoes,
     ROUND(AVG(rating), 2) AS media_avaliacao

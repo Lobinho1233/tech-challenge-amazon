@@ -14,11 +14,13 @@
 -- Já que pode conter mais de uma 
 --linha referente a um produto
 -- Com isso, pego a média agrupado por linhas
-SELECT product_id AS id_produto,
-        AVG(rating_count) AS media_avaliacao
+SELECT product_id,
+        MAX(product_name) AS product_name,
+        AVG(rating_count) AS media_engajamento,
+        ROUND(AVG(rating), 2) AS media_avaliacao
 FROM amazon_products
 GROUP BY product_id
-ORDER BY media_avaliacao DESC
+ORDER BY media_engajamento DESC
 LIMIT 10
 
 
