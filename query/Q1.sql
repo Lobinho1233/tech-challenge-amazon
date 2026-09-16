@@ -1,16 +1,13 @@
 -- Quais categorias e produtos apresentam maior relevância?
 
 
-WITH tb_category AS (
-SELECT
-    category,
-    MAX(rating_count) AS total_avaliacoes,
-    ROUND(AVG(rating), 2) AS media_avaliacao
+SELECT product_id,
+        MAX(category) AS categoria,
+        MAX(product_name) AS product_name,
+        AVG(rating_count) AS media_engajamento,
+        ROUND(AVG(rating), 2) AS media_avaliacao,
+        ROUND(AVG(actual_price), 2) AS preco
 FROM amazon_products
-GROUP BY category
-ORDER BY total_avaliacoes DESC
+GROUP BY product_id
+ORDER BY media_engajamento DESC
 LIMIT 10
-)
-SELECT *
-FROM tb_category
-WHERE media_avaliacao > 4
